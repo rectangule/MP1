@@ -4,10 +4,143 @@
         <meta charset="utf-8" />
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MP1</title>
+        <title>Darwin</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     </head>
     <body>
-        <h1>Hello World! Welcome to MP1!</h1>
+        <nav id="navbar">
+            <div class="logo">
+                Mah
+                <span>Studio</span>
+            </div>
+            <ul class ="nav-links">
+                <li><a href="#home" class="nav-link" data-section="home">Home</a></li>
+                <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+                <li><a href="#hobbies" class="nav-link" data-section="hobbies">Hobbies</a></li>
+                <li><a href="#gallery" class="nav-link" data-section="gallery">Quote</a></li>
+                <li><a href="#video" class="nav-link" data-section="video">Video</a></li>
+                <li><a href="#modal" class="nav-link" data-section="modal">Starter</a></li>
+            </ul>
+        </nav>
+
+       <header id="home" class="header">
+        <div class="header_content">
+            <h1>Darwin</h1>
+            <p>Just a little something</p>
+        </div>
+       </header>
+
+       <section id="about" class="about">
+        <h2>Who I Am</h2>
+        <div class="columns">
+            <div class="column">
+                <h3>Economics Major</h3>
+                <p>Economics of Risk, Industrial Competition and Monopoly, Financial Economics, Introduction to Applied Econometrics</p>
+            </div>
+            <div class="column">
+                <h3>Computer Science Minor</h3>
+                <p>Art of Web Programming, Topics in Internet of Things</p>
+            </div>
+            <div class="column">
+                <h3>Business Minor</h3>
+                <p>Introduction to Data Analytic Apps in Business, IT for Networked Organizations</p>
+            </div>
+        </div>
+       </section>
+
+       <section id="hobbies" class="hobbies">
+        <h2>My Hobbies</h2>
+        <div class="carousel">
+            <button class="carousel_button back" id="back" type="button" aria-label="Previous hobby">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+        <div class="carousel_content">
+            <ul class="carousel_things" id="carouselThings">
+            <li class="carousel_item">
+                <img src="assets/business-growth-with-a-growing-tree-on-a-coin-showing-financial-developments-financial-planning-concept-by-ai-generated-free-photo.jpg" alt="Money Growing">
+                <h3>Investing</h3>
+            </li>
+            <li class="carousel_item">
+                <img src="assets/klcbpn2ufi3enfwcnt0f.jpg" alt="Volleyball Block">
+                <h3>Volleyball</h3>
+            </li>
+            <li class="carousel_item">
+                <img src="assets/piano-7890735_1280.jpg" alt="Playing Piano">
+                <h3>Piano</h3>
+            </li>
+             <li class="carousel_item">
+                <img src="assets/m5yrpZTnnHapqHmQ7uA2rL-2000-80.jpg" alt="Spotify Mixing">
+                <h3>Spotify Mixing</h3>
+            </li>
+            </ul>
+        </div>
+            <button class="carousel_button forward" id="forward" type="button" aria-label="Next hobby">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+      </div>
+      <div class ="carousel_indicators">
+        </div>
+       </section>
+
+       <section id="gallery" class="gallery">
+        <div class="gallery_item">
+            <h2>Gallery</h2>
+            <p>Life is like the stock market. A bunch of up and down movements</p>
+            
+        </div>
+       </section>
+
+       <section id="video" class="videos">
+       
+            <h2>How I Imagine Life</h2>
+          
+            <video class= "video" controls>
+                <source src="assets/12467318-uhd_3840_2160_24fps (1).mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        
+       </section>
+
+       <section id="modal" class="modal">
+        <h2>Gen 3 Starters</h2>
+        <div class="modal_item">
+            <div class="item">
+                <img src="assets/R.png" alt="Mudkip">
+                <h3>Mudkip</h3>
+                <p class="something">Water</p>
+                <button class="modal_button" type="button" data-thing="mudkip">Learn More</button>
+            </div>
+             <div class="item">
+                <img src="assets/Torchic-Pokemon-PNG-Photo-Image.png" alt="Torchic">
+                <h3>Torchic</h3>
+                <p class="something">Fire</p>
+                <button class="modal_button" type="button" data-thing="torchic">Learn More</button>
+            </div>
+             <div class="item">
+                <img src="assets/800px-Treecko.png" alt="Treecko">
+                <h3>Treecko</h3>
+                <p class="something">Grass</p>
+                <button class="modal_button" type="button" data-thing="treecko">Learn More</button>
+            </div>
+        </div>
+            <div class="modal_overlay" id="modalOverlay">
+            <div class="modal_">
+                <button class="modal_close" id="modalClose" type="button" aria-label="Close modal">&times;</button>
+                <div id="modalContent"></div>
+            </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>&copy; 2026 Mah Studio. All rights reserved.</p>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/doorwinm/" class="Instagram" aria-label="Instagram">Instagram</a>
+                <a href="https://www.linkedin.com/in/darwin-mah/" class="LinkedIn" aria-label="LinkedIn">LinkedIn</a>
+                <a href="https://www.facebook.com/darwin.ham.5/" class="Facebook" aria-label="Facebook">Facebook</a>
+            </div>
+        </footer>
+        <!--<h1>Hello World! Welcome to MP1!</h1>
         <img src="assets/image.jpg">
+    -->
     </body>
 </html>

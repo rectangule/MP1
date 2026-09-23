@@ -1,1 +1,464 @@
 /* Your SCSS here. */
+
+$color-bg: #2e2035;
+$color-card: #1c1c1c;
+$color-accent: #9b93ff;
+$color-accent-alt: rgb(168, 64, 64);
+$color-text-muted: #8590b8;
+$color-white: rgb(250, 247, 247);
+
+$navbar-height-large: 90px;
+$navbar-height-small: 60px;
+
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin respond($breakpoint) {
+  @if $breakpoint == tablet {
+    @media (max-width: 1024px) {
+      @content;
+    }
+  }
+  @if $breakpoint == mobile {
+    @media (max-width: 768px) {
+      @content;
+    }
+  }
+}
+
+@mixin button-style($bg-color, $text-color: $color-white) {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: $bg-color;
+  color: $text-color;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    background: darken($bg-color, 10%);
+  }
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: $color-bg;
+  scroll-behavior: smooth;
+}
+
+
+#navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $navbar-height-large;
+  background-color: rgba($color-bg, 0.95);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3rem;
+  box-sizing: border-box;
+  transition: height 0.4s ease, box-shadow 0.4s ease;
+
+  &.scrolled {
+    height: $navbar-height-small;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+
+    .logo { font-size: 1.1rem; }
+    .nav-links { font-size: 0.85rem; }
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    color: $color-accent-alt;
+    font-weight: 700;
+    transition: font-size 0.4s ease;
+
+    span { color: $color-accent; }
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+
+    .nav-link {
+      color: $color-accent;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      padding-bottom: 2px;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.3s ease, color 0.3s ease;
+
+      &:hover { color: #f6fafd; }
+
+     
+      &.active { border-bottom-color: $color-accent-alt; }
+    }
+  }
+
+  @include respond(tablet) {
+    padding: 0 2rem;
+    .nav-links { gap: 1.2rem; }
+  }
+
+  @include respond(mobile) {
+    padding: 0 1.2rem;
+    .nav-links { gap: 0.9rem; }
+    .nav-link { font-size: 0.75rem; }
+  }
+}
+
+
+.header {
+  height: 100vh;
+  min-height: 600px;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('../assets/vivid-night-club-background-with-dj-free-photo.jpg') no-repeat center center/cover;
+
+  .header_content {
+    @include flex-center(column);
+    height: 100%;
+    color: #fff;
+    text-align: center;
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      animation: fadeInUp 2s ease both;
+    }
+
+    p {
+      color: $color-text-muted;
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+  }
+
+  @include respond(mobile) {
+    .header_content {
+      h1 { font-size: 2rem; }
+      p { font-size: 1rem; }
+    }
+  }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+.about {
+  background: $color-bg;
+  padding: 4rem 2rem;
+  box-sizing: border-box;
+  text-align: center;
+  @include flex-center(column); 
+
+  h2 { color: $color-accent; }
+
+  .columns {
+    display: flex;
+    gap: 2.4rem;
+    max-width: 1100px;
+    width: 100%;
+    justify-content: center;
+  
+
+    .column {
+      flex: 1;
+      background: $color-card;
+      padding: 2rem;
+      border-radius: 12px;
+      color: #fff;
+      transition: transform 0.2s ease;
+
+      &:hover { transform: translateY(-8px); }
+
+  
+      p {
+        font-size: 0.85rem;
+        color: $color-text-muted;
+        margin-bottom: 0;
+      }
+
+      h3 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  @include respond(mobile) {
+    .columns { flex-direction: column; }
+  }
+}
+
+
+.hobbies {
+  background: $color-bg;
+  padding: 4rem 2rem;
+  box-sizing: border-box;
+  text-align: center;
+  @include flex-center(column);
+
+  h2 { color: $color-accent; }
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 1100px;
+  width: 100%;
+
+  .carousel_content {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .carousel_things {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    transition: transform 0.4s ease;
+  }
+
+  .carousel_item {
+    min-width: 100%;
+    box-sizing: border-box;
+    background: $color-card;
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    img {
+        width: 100%;
+        max-width: 400px;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+    }
+
+    h3 { margin-top: 0; color: $color-accent; }
+  }
+
+  .carousel_button {
+    @include flex-center;
+    background: $color-accent-alt;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 50%;
+    border: none;
+    color: $color-white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover { background: darken($color-accent-alt, 10%); }
+  }
+}
+
+.carousel_indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+
+  .carousel_indicator {
+    width: 12px;
+    height: 12px;
+    background: $color-accent;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &.active { background: $color-accent-alt; }
+  }
+}
+
+
+.gallery {
+  height: 100vh;
+  min-height: 400px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../assets/2927307.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 0;
+  @include flex-center(column);
+  text-align: center;
+  h2 {
+    display: none;
+  }
+
+  .gallery_item {
+    max-width: 600px;
+    p { color: $color-accent-alt; }
+  }
+
+  @include respond(mobile) {
+    background-attachment: scroll;
+  }
+}
+
+
+.videos {
+  background: $color-bg;
+  padding: 4rem 2rem;
+  box-sizing: border-box;
+  text-align: center;
+  @include flex-center(column);
+
+  h2 { color: $color-accent; }
+
+
+  .video {
+    display: block;
+    max-width: 600px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border: none;
+    border-radius: 12px;
+  }
+}
+
+
+.modal {
+  background: $color-accent-alt;
+  padding: 4rem 2rem;
+  box-sizing: border-box;
+  text-align: center;
+  @include flex-center(column);
+
+  h2 { color: #fff; }
+
+  .modal_item {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1100px;
+
+    .item {
+      background: $color-bg;
+      padding: 1.5rem;
+      border-radius: 12px;
+      width: 220px;
+
+      img {
+        width: 100%;
+        height: auto;
+        border-radius: 50%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+      }
+
+  
+      h3 { margin: 1rem 0 0.2rem; }
+
+      .something {
+        color: $color-text-muted;
+        font-size: 0.85rem;
+      }
+
+      .modal_button {
+        @include button-style($color-accent-alt);
+        padding: 0.5rem 1.4rem;
+        font-size: 0.85rem;
+      }
+    }
+  }
+}
+
+
+.modal_overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 2000;
+  
+
+  &.open { @include flex-center;}
+
+  .modal_ {
+    background: $color-card;
+    border-radius: 12px;
+    padding: 2.5rem;
+    max-width: 480px;
+    width: 90%;
+    position: relative;
+    color: #fff;
+
+    .modal_close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: $color-text-muted;
+      font-size: 1.3rem;
+      cursor: pointer;
+
+      &:hover { color: #fff; }
+    }
+
+    h3 { margin-top: 0; color: $color-accent; }
+    p { color: $color-text-muted; line-height: 1.6; }
+  }
+}
+
+
+.footer {
+  background: $color-bg;
+  padding: 2rem 0.5rem;
+  text-align: center; 
+
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+
+    a {
+      color: $color-text-muted;
+      font-size: 1.4rem;
+      transition: color 0.2s ease, transform 0.2s ease;
+
+      &:hover {
+        color: $color-accent;
+        transform: translateY(-3px);
+      }
+    }
+  }
+
+  p {
+    color: $color-text-muted;
+    font-size: 0.85rem;
+    margin: 0;
+  }
+}
