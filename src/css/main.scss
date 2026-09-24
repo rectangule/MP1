@@ -315,9 +315,14 @@ body {
     max-width: 600px;
     p { color: $color-accent-alt; }
   }
-
+  @include respond(tablet) {
+    background-attachment: scroll;
+  }
   @include respond(mobile) {
     background-attachment: scroll;
+    height: auto;
+    min-height: 400px;
+    padding: 4rem 2rem;
   }
 }
 
