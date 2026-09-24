@@ -1,2 +1,126 @@
 example_chatgpt_log_link1
+https://www.perplexity.ai/search/b6f6f5a4-967f-4834-a491-ee141888c233
 example_bing_chat_log_link2
+Setting up carousel buttons with icons.
+
+You already have the icon markup in place — <i class="fas fa-chevron-left"> / fa-chevron-right" inside your buttons — but nothing loads the Font Awesome font, so those icons are currently invisible (rendering as empty space). Two things to check/add:
+
+1. Load Font Awesome in <head>
+
+Your current index.html <head> only has meta tags and the title — no icon font linked anywhere. Add this line:
+
+html
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darwin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+Once that's there, your existing <i class="fas fa-chevron-left"></i> and <i class="fas fa-chevron-right"></i> will actually render as arrow glyphs.
+
+2. Make sure they're sized/colored well inside the button
+
+Your .carousel_button rule already sets color: $color-white; font-size: 1.2rem; on the button itself, and since <i> inherits color and font-size by default, the arrows should pick that up automatically — no extra CSS strictly required. But if you want more control over just the icon (independent of button text sizing, useful if you ever add a label next to it), target the <i> directly:
+
+scss
+.carousel_button {
+  @include flex-center;
+  background: $color-accent-alt;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  border: none;
+  color: $color-white;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+
+  i {
+    font-size: 1.1rem;      // separate control over icon size specifically
+  }
+
+  &:hover {
+    background: darken($color-accent-alt, 10%);
+    transform: scale(1.08);  // small hover pop, nice touch on an icon button
+  }
+}
+The actual bug
+
+Your .modal_overlay rule has display: none; at the top, but then @include flex-center; further down in the same rule block — and that mixin's own display: flex; line gets inserted right there. In CSS, when the exact same selector has two conflicting declarations for the same property, the one that appears later in the source wins, regardless of intent. So your compiled CSS ends up with display: none; immediately overridden by display: flex; a few lines later, in the base .modal_overlay rule itself — not inside .open.
+
+That means the overlay is permanently display: flex from the moment the page loads, completely independent of whether .open is present or not. This isn't a "stuck state from earlier testing" — it's been showing (and blocking every click on the page) since your very first fresh load. That exactly matches what you're describing: an invisible-but-present overlay eating every click, no matter what you click "close" on.
+
+The fix
+
+Move the mixin @include before display: none;, so none is the last word for the base state, and .open still overrides it correctly:
+
+scss
+.modal_overlay {
+  @include flex-center;   // display: flex; flex-direction: row; etc. — set first
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 2000;
+  display: none;          // this now wins as the base state
+
+  &.open { display: flex; }
+}
+
+Save, let webpack recompile, then do one genuinely fresh page load (not hot-reload) — the overlay should now correctly start hidden and only appear when a "Learn More" button is clicked. This is a good one to remember generally: when combining a mixin with a manual override on the same selector, put the mixin first — otherwise the mixin's own properties silently win the cascade no matter which one you "meant" to be the override.
+
+on mobile the gallery doesnt scroll with the page if that made sense
+
+Weighing viewport-unit quirks and a clarifying question to ask.
+That's the classic background-attachment: fixed problem — good news is you already added the fix for it earlier, so let's check why it might not be taking effect.
+
+Why this happens
+background-attachment: fixed is broken/inconsistent on mobile browsers, especially iOS Safari — sometimes it doesn't scroll at all, sometimes it causes janky/stuttery scrolling, sometimes the whole section feels "stuck" until you scroll hard enough to clear it. This is a well-known mobile limitation, not something specific to your code.
+
+Your .gallery rule already has the standard fix for this:
+
+scss
+.gallery {
+  ...
+  background-attachment: fixed;
+  ...
+  @include respond(mobile) {
+    background-attachment: scroll;   // ← this should undo the "fixed" behavior under 768px
+  }
+}
+First, check this actually reached the live site
+Two quick things to verify:
+
+Did you commit/push/redeploy after that rule was added? If you're testing the currently-deployed GitHub Pages site rather than your local dev server, it needs a fresh push + Action run to pick this up.
+Are you testing at an actual mobile width? If you're resizing a desktop browser window down, make sure you're going below 768px wide — your breakpoint is max-width: 768px, so anything wider than that (including some tablets in landscape) won't get the override.
+If both of those check out and it's still stuck, add this alongside it as a stronger version:
+
+scss
+.gallery {
+  height: 100vh;
+  min-height: 400px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../assets/2927307.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 0;
+  @include flex-center(column);
+  text-align: center;
+
+  @include respond(tablet) {
+    background-attachment: scroll;   // catch tablets too, not just phones
+  }
+  @include respond(mobile) {
+    background-attachment: scroll;
+    height: auto;
+    min-height: 400px;
+    padding: 4rem 2rem;   // give it breathing room now that it's not forced to 100vh
+  }
+}
+The extra bit here: height: 100vh on mobile can also cause a related-but-different symptom — mobile browsers resize their address bar as you scroll, so 100vh doesn't always mean "exactly one screen," and sometimes causes extra blank space or awkward jumps. Switching to height: auto + a fixed min-height on mobile avoids that entirely, letting the section size itself to its content instead of fighting the viewport.
+
+Can you tell me more specifically what "doesn't scroll with the page" looks like — does the background image itself stay pinned while the text scrolls past it (the classic parallax effect), does the whole section feel frozen/unresponsive to your swipe, or does something look visually broken (gap, overlap, cut-off text)? That'll tell me if it's purely the background-attachment issue or something else layered on top.
