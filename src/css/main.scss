@@ -299,6 +299,7 @@ body {
 
 .gallery {
   height: 100vh;
+  
   min-height: 400px;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../assets/2927307.jpg');
   background-size: cover;
@@ -310,6 +311,7 @@ body {
   h2 {
     display: none;
   }
+ 
 
   .gallery_item {
     max-width: 600px;
